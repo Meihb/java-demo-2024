@@ -1,10 +1,9 @@
-package com.example.demo.services.impl;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.Menu;
 import com.example.demo.mapper.MenuMapper;
-import com.example.demo.services.MenuService;
+import com.example.demo.service.MenuService;
 import jakarta.annotation.Resource;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

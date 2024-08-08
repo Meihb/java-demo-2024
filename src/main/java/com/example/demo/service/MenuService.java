@@ -1,7 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
 import com.example.demo.entity.Menu;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
