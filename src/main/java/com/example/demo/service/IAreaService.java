@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.entity.Area;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
+
 /**
  * <p>
  *  服务类

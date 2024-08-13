@@ -1,17 +1,16 @@
 package com.example.demo.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author meihaibo
@@ -19,6 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@TableName("area")
 public class Area implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,4 +34,14 @@ public class Area implements Serializable {
     private LocalDateTime createTime;
 
     private LocalDateTime lastEditTime;
+
+    public Area(int areaId, String areaName, int priority) {
+        this.areaId = areaId;
+        this.areaName = areaName;
+        this.priority = priority;
+    }
+
+    public Area() {
+
+    }
 }

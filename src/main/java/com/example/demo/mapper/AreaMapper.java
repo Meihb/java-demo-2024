@@ -5,12 +5,10 @@ import com.example.demo.entity.Area;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author meihaibo
  * @since 2024-08-08
  */
-public interface AreaMapper extends BaseMapper<Area> {
-
-}
+public interface AreaMapper extends BaseMapper<Area> {}

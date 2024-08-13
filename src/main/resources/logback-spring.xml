@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scan：当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒当scan为true时，此属性生效。默认的时间间隔为1分钟。
+    debug：当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<!--debug="true" scan="true" scanperiod="1800 seconds"-->
+<configuration>
+    <!--
+    日志输出格式：
+    %-5level
+    %d{yyyy-MM-dd HH:mm:ss.SSS}日期
+    %c类的完整名称
+    %M为method
+    %L为行号
+    %thread线程名称
+    %logger{36} 是一个日志模式的一部分，用于在日志输出中包含日志记录的类名或 logger 名称。{36} 是指定的最大宽度，即类名或 logger 名称将被截断至最多 36 个字符，超出的部分将被省略。
+    %m或者%msg为信息
+    %n换行
+    -->
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度
+    %msg：日志消息，%n是换行符-->
+    <!--    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-5level] %c %M %L [%thread] %m%n"/>-->
+    <!-- 日志文件存放目录 -->
+    <!--    <property name="log_dir" value="./logs"/>-->
+
+    <!-- source 表示其源自于application.properties配置 -->
+    <springProperty scope="context" name="app_name" source="logback.appName" defaultValue="com.example.demo"/>
+    <springProperty scope="context" name="log_dir" source="logback.logDir" defaultValue="./logs/"/>
+    <springProperty scope="context" name="pattern" source="logback.pattern"
+                    defaultValue="%d{yyyy-MM-dd HH:mm:ss} [%-5level] %c %M %L [%thread] %m%n"/>
+    <!--    <springProperty scope="context" name="LOG_LEVEL" source="logback.logLevel" defaultValue="info"/>-->
+    <!--
+    Appender: 设置日志信息的去向,常用的有以下几个
+    ch.qos.logback.core.ConsoleAppender (控制台)
+    ch.qos.logback.core.rolling.RollingFileAppender (文件大小到达指定尺寸的时候产生一个新文件)
+    ch.qos.logback.core.FileAppender (文件)
+    -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--输出流对象 默认 System.out 改为 System.err-->
+        <target>System.out</target>
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--日志文件输出appender对象-->
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/logback.log</file>
+    </appender>
+
+    <!-- 日志文件拆分和归档的appender对象-->
+    <appender name="systemRollFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/system_roll_logback.log</file>
+        <!--指定日志文件拆分和压缩规则-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--通过指定压缩文件名称，来确定分割文件方式-->
+            <fileNamePattern>${log_dir}/system.rolling.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 单独文件拆分大小-->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 总文件保留大小-->
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 日志文件拆分和归档的appender对象-->
+    <appender name="projectRollFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/project_roll_logback.log</file>
+        <!--指定日志文件拆分和压缩规则-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--通过指定压缩文件名称，来确定分割文件方式-->
+            <fileNamePattern>${log_dir}/project.rolling.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 单独文件拆分大小-->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 总文件保留大小-->
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--            <level>ERROR</level>-->
+        <!--            <onMatch>DENY</onMatch>-->
+        <!--            <onMismatch>ACCEPT</onMismatch>-->
+        <!--        </filter>-->
+    </appender>
+    <!-- 日志文件拆分和归档的appender对象-->
+    <appender name="projectErrorRollFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+            <!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] %logger{36} %L [%thread] [%X{traceId}] %m%n</pattern>-->
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/project_error_roll_logback.log</file>
+        <!--指定日志文件拆分和压缩规则-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--通过指定压缩文件名称，来确定分割文件方式-->
+            <fileNamePattern>${log_dir}/project.error.rolling.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 单独文件拆分大小-->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 总文件保留大小-->
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- 仅输出ERROR级别的日志 我发现如果这个信息被该appender mismatch了，就回fall through到root中，至少保证了日志不会丢失 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- db日志文件拆分和归档的appender对象-->
+    <appender name="dbFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/db_roll_logback.log</file>
+        <!--指定日志文件拆分和压缩规则-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--通过指定压缩文件名称，来确定分割文件方式-->
+            <fileNamePattern>${log_dir}/db.rolling.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 每个文件最大为100MB，最多保存60个文件数量，并且所有文件总和不能大于1GB。 -->
+            <maxFileSize>200MB</maxFileSize>
+            <maxHistory>150</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <!--
+    用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>。
+    <loger>仅有一个name属性，一个可选的level和一个可选的addtivity属性
+    name:
+    用来指定受此logger约束的某一个包或者具体的某一个类。
+    level:
+    用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和
+    OFF，
+    如果未设置此属性，那么当前logger将会继承上级的级别。
+    additivity:
+    是否向上级loger传递打印信息。默认是true。
+    <logger>可以包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个logger
+    -->
+
+    <!--
+    也是<logger>元素，但是它是根logger。默认debug
+    level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，
+    <root>可以包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个
+    logger。
+    -->
+    <root level="WARN">
+        <appender-ref ref="console"/>
+        <appender-ref ref="systemRollFile"/>
+    </root>
+
+    <!-- 以下这一句至关重要如果没有，就无法输出 sql 语句 preparing语句是debug级别
+    注意：在 spring boot 中，想在控制台打印 mybatis 的 sql 语句，只需要配置下边这一句就好了
+    如果想要记录更详细的 SQL 日志，只需要把下面的日志级别改成 TRACE 就可以了
+    preparing statement 和 bind parameters 都会加入进来,但是trace会把select的结果集都展示出来，按需设置
+    即将 mapper 接口打入 logger 就行。
+    这个mapper只能自己手动写
+    -->
+    <!--    <logger name="${app_name}.mapper" level="DEBUG" additivity="false">-->
+    <!--        <appender-ref ref="dbFile"/>-->
+    <!--    </logger>-->
+    <!-- 关闭以 jdbc 开头的所有包的日志 -->
+    <logger name="jdbc" level="OFF" additivity="false"/>
+    <!--    <logger name="jdbc.connection" additivity="false" level="OFF">-->
+    <!--        <appender-ref ref="dbFile"/>-->
+    <!--    </logger>-->
+    <!--    <logger name="jdbc.resultset" additivity="false" level="OFF">-->
+    <!--        <appender-ref ref="dbFile"/>-->
+    <!--    </logger>-->
+    <!--    <logger name="jdbc.resultsettable" additivity="false" level="OFF">-->
+    <!--        <appender-ref ref="dbFile"/>-->
+    <!--    </logger>-->
+    <!--    <logger name="jdbc.audit" additivity="false" level="OFF">-->
+    <!--        <appender-ref ref="dbFile"/>-->
+    <!--    </logger>-->
+    <logger name="jdbc.sqlonly" additivity="false" level="DEBUG">
+        <appender-ref ref="dbFile"/>
+    </logger>
+    <logger name="jdbc.sqltiming" additivity="false" level="DEBUG">
+        <appender-ref ref="dbFile"/>
+    </logger>
+
+    <!--  业务日志  -->
+    <logger name="${app_name}" level="INFO" additivity="false">
+        <appender-ref ref="projectRollFile"/>
+        <appender-ref ref="projectErrorRollFile"/>
+    </logger>
+
+
+</configuration>
