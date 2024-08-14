@@ -56,11 +56,11 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.5.7</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>mybatis-plus-extension</artifactId>-->
-<!--            <version>3.5.7</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.baomidou</groupId>-->
+        <!--            <artifactId>mybatis-plus-extension</artifactId>-->
+        <!--            <version>3.5.7</version>-->
+        <!--        </dependency>-->
 
         <!-- MySQL Connector -->
         <dependency>
@@ -129,6 +129,11 @@
         <dependency>
             <groupId>ch.qos.logback.db</groupId>
             <artifactId>logback-core-db</artifactId>
+            <version>1.2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback.db</groupId>
+            <artifactId>logback-classic-db</artifactId>
             <version>1.2.11.1</version>
         </dependency>
         <dependency>

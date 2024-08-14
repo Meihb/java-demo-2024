@@ -65,9 +65,8 @@ public class CustomDBAppender extends DBAppenderBase<ILoggingEvent> {
 
     // 管理每个字段插入的数据
     private void bindLoggingEventWithInsertStatement(PreparedStatement stmt, ILoggingEvent event) throws SQLException {
-        // TODO 手工处理ID的生成
+        // 手工处理ID的生成
         stmt.setString(ID_INDEX, String.format("%d",new SnowflakeIdGenerator(1L, 1L).nextId()));
-//        stmt.setString(ID_INDEX, "0");
         stmt.setString(CREATE_TIME_INDEX, LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getTimeStamp()),
                 ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         stmt.setString(MESSAGE_INDEX, event.getFormattedMessage());
