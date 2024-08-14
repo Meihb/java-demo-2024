@@ -15,7 +15,7 @@ public class MailUtil {
     @Value("${spring.mail.from}")
     private String sender; //邮件发送者
     @Value("${spring.mail.username}")
-    private Object mailAddress;
+    private String mailAddress;
 
     @Resource(name = "customSMTPJavaMailSender")
     private JavaMailSender javaMailSender;
@@ -50,7 +50,7 @@ public class MailUtil {
 //        messageHelper.setFrom("jiuyue@163.com");
 //        messageHelper.setTo("September@qq.com");
 //        messageHelper.setSubject("BugBugBug");
-//        messageHelper.setText("一杯茶，一根烟，一个Bug改一天！");
+//        messageHelper.setText("啦啦啦啦啦啦！");
 //        messageHelper.addInline("bug.gif", new File("xx/xx/bug.gif"));
 //        messageHelper.addAttachment("bug.docx", new File("xx/xx/bug.docx"));
 //        mailSender.send(mimeMessage);

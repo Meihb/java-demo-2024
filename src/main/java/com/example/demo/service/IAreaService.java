@@ -15,4 +15,5 @@ import java.util.Collection;
  */
 public interface IAreaService extends IService<Area> {
 
+    void test();
 }

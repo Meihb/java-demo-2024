@@ -45,13 +45,13 @@ public class AreaController {
             @RequestParam(value = "areaName") String areaName,
             @RequestParam(value = "priority", required = false, defaultValue = "0") Integer priority
     ) throws Exception {
-        log.info("Area 1111saved successfully.");
-        log.error("Area 1111saved error.");
+        log.info("Area saved successfully.");
+        log.error("Area saved error.");
         System.out.println(MDC.get(UserAuthInterceptor.TRACE_ID));
         if (areaId < 0) {
             throw new Exception("Area 1111saved exception.");
         }
-
+//        areaService.test();
         // 假设有一个 User 实体对象
         Area area = new Area();
         area.setAreaId(areaId);

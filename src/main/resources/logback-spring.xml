@@ -27,6 +27,12 @@
     <springProperty scope="context" name="pattern" source="logback.pattern"
                     defaultValue="%d{yyyy-MM-dd HH:mm:ss} [%-5level] %c %M %L [%thread] %m%n"/>
     <!--    <springProperty scope="context" name="LOG_LEVEL" source="logback.logLevel" defaultValue="info"/>-->
+
+    <!-- 获取springboot中的数据库配置 -->
+    <springProperty scope="context" name="driverClassName" source="spring.datasource.driver-class-name"/>
+    <springProperty scope="context" name="url" source="spring.datasource.url"/>
+    <springProperty scope="context" name="username" source="spring.datasource.username"/>
+    <springProperty scope="context" name="password" source="spring.datasource.password"/>
     <!--
     Appender: 设置日志信息的去向,常用的有以下几个
     ch.qos.logback.core.ConsoleAppender (控制台)
@@ -42,7 +48,20 @@
             <pattern>${pattern}</pattern>
         </encoder>
     </appender>
-
+    <!-- 输出日志到数据库 -->
+    <appender name="DBAppender" class="com.example.demo.config.CustomDBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>com.mysql.cj.jdbc.Driver</driverClass>
+            <!--            <url>jdbc:mysql://127.0.0.1:3306/log?serverTimezone=UTC</url>-->
+            <!--            <url>jdbc:mysql://localhost:23306/hg?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false</url>-->
+            <!--            <user>root</user>-->
+            <!--            <password>123456</password>-->
+            <driverClass>${driverClassName}</driverClass>
+            <url>${url}</url>
+            <user>${username}</user>
+            <password>${password}</password>
+        </connectionSource>
+    </appender>
     <!--日志文件输出appender对象-->
     <appender name="file" class="ch.qos.logback.core.FileAppender">
         <!--日志格式配置-->
@@ -202,17 +221,19 @@
     <!--    <logger name="jdbc.audit" additivity="false" level="OFF">-->
     <!--        <appender-ref ref="dbFile"/>-->
     <!--    </logger>-->
-    <logger name="jdbc.sqlonly" additivity="false" level="DEBUG">
-        <appender-ref ref="dbFile"/>
-    </logger>
+    <!--    <logger name="jdbc.sqlonly" additivity="false" level="DEBUG">-->
+    <!--        <appender-ref ref="dbFile"/>-->
+    <!--    </logger>-->
     <logger name="jdbc.sqltiming" additivity="false" level="DEBUG">
         <appender-ref ref="dbFile"/>
+        <appender-ref ref="projectErrorRollFile"/>
     </logger>
 
     <!--  业务日志  -->
     <logger name="${app_name}" level="INFO" additivity="false">
         <appender-ref ref="projectRollFile"/>
         <appender-ref ref="projectErrorRollFile"/>
+        <appender-ref ref="DBAppender"/>
     </logger>
 
 

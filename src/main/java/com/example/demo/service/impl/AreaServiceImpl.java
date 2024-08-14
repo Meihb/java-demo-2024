@@ -22,4 +22,8 @@ import java.util.List;
 @Service
 public class AreaServiceImpl extends ServiceImpl<AreaMapper, Area> implements IAreaService {
 
+    public void test() {
+        throw new RuntimeException("测试service异常");
+    }
+
 }
