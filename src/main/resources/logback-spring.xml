@@ -14,6 +14,7 @@
     %logger{36} 是一个日志模式的一部分，用于在日志输出中包含日志记录的类名或 logger 名称。{36} 是指定的最大宽度，即类名或 logger 名称将被截断至最多 36 个字符，超出的部分将被省略。
     %m或者%msg为信息
     %n换行
+    %marker marker信息
     -->
     <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度
     %msg：日志消息，%n是换行符-->
@@ -33,6 +34,23 @@
     <springProperty scope="context" name="url" source="spring.datasource.url"/>
     <springProperty scope="context" name="username" source="spring.datasource.username"/>
     <springProperty scope="context" name="password" source="spring.datasource.password"/>
+    <property name="commonPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class{0}:%line][%X{traceId}]: %msg%n%rEx{full,
+          java.lang.reflect.Method,
+          sun.reflect,
+          org.apache.catalina,
+          org.springframework.aop,
+          org.springframework.security,
+          org.springframework.transaction,
+          org.springframework.web,
+          org.springframework.beans,
+          org.springframework.cglib,
+          net.sf.cglib,
+          org.apache.tomcat.util,
+          org.apache.coyote,
+          ByCGLIB,
+          BySpringCGLIB,
+          com.google.common.cache.LocalCache$
+        }"/>
     <!--
     Appender: 设置日志信息的去向,常用的有以下几个
     ch.qos.logback.core.ConsoleAppender (控制台)
@@ -48,6 +66,45 @@
             <pattern>${pattern}</pattern>
         </encoder>
     </appender>
+    <!--  输出日志到smtp  -->
+    <appender name="SMTP"
+              class="ch.qos.logback.classic.net.SMTPAppender">
+        <layout class="ch.qos.logback.classic.html.HTMLLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}%-5level%logger{36}%L%thread%X{traceId}%marker%m%n</pattern>
+        </layout>
+        <!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+        <!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n%rEx</pattern>-->
+        <!--        </layout>-->
+        <!--        <Evaluator class="ch.qos.logback.access.net.URLEvaluator">-->
+        <!--        </Evaluator>-->
+        <!--    marker评估    -->
+        <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+            <marker>NOTIFY_ADMIN</marker>
+        </evaluator>
+        <smtpHost>smtp.qiye.aliyun.com</smtpHost>
+        <smtpPort>587</smtpPort>
+        <username>news@ebclub.com</username>
+        <password>kTyb9wH6yX@P</password>
+        <to>herbert.mei@heavengifts.com</to>
+        <from>news@ebclub.com</from>
+        <subject>Logback Error Report</subject> <!-- 邮件主题 -->
+        <asynchronousSending>true</asynchronousSending>
+        <startTLS>true</startTLS>
+        <!--        <evaluator class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+        <!--            <level>ERROR</level> &lt;!&ndash; 只发送 ERROR 级别的日志 &ndash;&gt;-->
+        <!--        </evaluator>-->
+        <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+            <!-- send just #{number} log entry per email -->
+            <bufferSize>256</bufferSize>
+        </cyclicBufferTracker>
+        <smtpProtocol>smtp</smtpProtocol> <!-- SMTP 协议 -->
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>-->
+    </appender>
+
     <!-- 输出日志到数据库 -->
     <!--    <appender name="DBAppender" class="com.example.demo.config.CustomDBAppender">-->
     <appender name="DBAppender" class="ch.qos.logback.classic.db.DBAppender">
@@ -112,6 +169,8 @@
             <fileNamePattern>${log_dir}/project.rolling.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <!-- 单独文件拆分大小-->
             <maxFileSize>50MB</maxFileSize>
+            <!-- 保留归档文件的天数 -->
+            <maxHistory>300</maxHistory>
             <!-- 总文件保留大小-->
             <totalSizeCap>10GB</totalSizeCap>
         </rollingPolicy>
@@ -125,11 +184,22 @@
     <appender name="projectErrorRollFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--日志格式配置-->
-        <encoder
-                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${pattern}</pattern>
-            <!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] %logger{36} %L [%thread] [%X{traceId}] %m%n</pattern>-->
         </encoder>
+        <!--        <encoder class="ch.qos.logback.classic.encoder.JsonEncoder">-->
+        <!--            <jsonGenerator>-->
+        <!--                <prettyPrint>true</prettyPrint>-->
+        <!--            </jsonGenerator>-->
+        <!--            <includeContextName>true</includeContextName>-->
+        <!--            <includeLoggerName>true</includeLoggerName>-->
+        <!--            <includeThreadName>true</includeThreadName>-->
+        <!--            <includeMDC>true</includeMDC> &lt;!&ndash; 启用 MDC &ndash;&gt;-->
+        <!--            <includeLocation>true</includeLocation>-->
+        <!--            <includeTimestamp>true</includeTimestamp>-->
+        <!--            <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSZ</timestampFormat>-->
+        <!--            <includeCallerData>true</includeCallerData>-->
+        <!--        </encoder>-->
         <!--日志输出路径-->
         <file>${log_dir}/project_error_roll_logback.log</file>
         <!--指定日志文件拆分和压缩规则-->
@@ -204,11 +274,11 @@
     即将 mapper 接口打入 logger 就行。
     这个mapper只能自己手动写
     -->
-    <!--    <logger name="${app_name}.mapper" level="DEBUG" additivity="false">-->
-    <!--        <appender-ref ref="dbFile"/>-->
-    <!--    </logger>-->
+    <logger name="${app_name}.mapper" level="DEBUG" additivity="false">
+        <appender-ref ref="dbFile"/>
+    </logger>
     <!-- 关闭以 jdbc 开头的所有包的日志 -->
-    <logger name="jdbc" level="OFF" additivity="false"/>
+    <!--    <logger name="jdbc" level="OFF" />-->
     <!--    <logger name="jdbc.connection" additivity="false" level="OFF">-->
     <!--        <appender-ref ref="dbFile"/>-->
     <!--    </logger>-->
@@ -224,16 +294,16 @@
     <!--    <logger name="jdbc.sqlonly" additivity="false" level="DEBUG">-->
     <!--        <appender-ref ref="dbFile"/>-->
     <!--    </logger>-->
-    <logger name="jdbc.sqltiming" additivity="false" level="DEBUG">
-        <appender-ref ref="dbFile"/>
-        <appender-ref ref="projectErrorRollFile"/>
-    </logger>
+    <!--    <lgger name="jdbc.sqltiming" additivity="false" level="DEBUG">-->
+    <!--        <appender-ref ref="dbFile"/>-->
+    <!--    </lgger>-->
 
     <!--  业务日志  -->
     <logger name="${app_name}" level="INFO" additivity="false">
         <appender-ref ref="projectRollFile"/>
         <appender-ref ref="projectErrorRollFile"/>
         <appender-ref ref="DBAppender"/>
+        <appender-ref ref="SMTP"/>
     </logger>
 
 

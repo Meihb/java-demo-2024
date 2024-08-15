@@ -1,11 +1,8 @@
 package com.example.demo.interceptor;
 
-import com.example.demo.service.ISysUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,6 +18,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         MDC.put(TRACE_ID, UUID.randomUUID().toString());
+//        MDC.put(TRACE_ID, UUID.randomUUID().toString());
         return true;
 //        }
     }
@@ -33,6 +31,6 @@ public class UserAuthInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
         // 在完成请求处理之后执行的逻辑
-//        MDC.remove(TRACE_ID);
+        MDC.remove(TRACE_ID);
     }
 }

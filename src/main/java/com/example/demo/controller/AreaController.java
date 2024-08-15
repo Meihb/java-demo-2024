@@ -1,20 +1,21 @@
 package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.annotation.WebLog;
 import com.example.demo.component.Mail;
 import com.example.demo.entity.Area;
 import com.example.demo.interceptor.UserAuthInterceptor;
 import com.example.demo.service.IAreaService;
 import com.example.demo.util.MailUtil;
-import groovy.lang.Grab;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.MDC;
+import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Constants;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -45,11 +46,15 @@ public class AreaController {
             @RequestParam(value = "areaName") String areaName,
             @RequestParam(value = "priority", required = false, defaultValue = "0") Integer priority
     ) throws Exception {
-        log.info("Area saved successfully.");
-        log.error("Area saved error.");
+//        Marker notifyAdmin = MarkerFactory.getMarker("NOTIFY_ADMIN");
+        log.info("{} saved successfully.", areaName);
+        log.error("{} saved error", areaName);
+
         System.out.println(MDC.get(UserAuthInterceptor.TRACE_ID));
         if (areaId < 0) {
-            throw new Exception("Area 1111saved exception.");
+            log.error(MarkerFactory.getMarker("NOTIFY_ADMIN"), "something wrong", new Exception("exception occurs"));
+//            throw new Exception("Area 1111saved exception.");
+            return "illegal areaId.";
         }
 //        areaService.test();
         // 假设有一个 User 实体对象

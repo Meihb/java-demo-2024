@@ -1,12 +1,10 @@
 package com.example.demo.aspect;
 
 import com.example.demo.annotation.IsAuthorized;
-import com.example.demo.component.Mail;
 import com.example.demo.util.HttpUtil;
 import com.example.demo.util.MailUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * 执行顺序
@@ -134,12 +131,11 @@ public class IsAuthorizedAspect {
         log.info("@AfterThrowing begin... ");
 
         log.error(e.getMessage());
-        Mail mail = new Mail();
-        mail.setRecipient("herbert.mei@heavengifts.com");
-        mail.setSubject("异常报警");
-        mail.setContent(String.format("%s\n%s", e.getMessage(), "请注意处理"));
-
-        mailUtil.sendSimpleMail(mail);
+//        Mail mail = new Mail();
+//        mail.setRecipient("herbert.mei@heavengifts.com");
+//        mail.setSubject("异常报警");
+//        mail.setContent(String.format("%s\n%s", e.getMessage(), "请注意处理"));
+//        mailUtil.sendSimpleMail(mail);
         log.info("@AfterThrowing end... ");
     }
 }
