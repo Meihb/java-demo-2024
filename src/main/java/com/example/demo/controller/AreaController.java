@@ -7,6 +7,7 @@ import com.example.demo.interceptor.UserAuthInterceptor;
 import com.example.demo.service.IAreaService;
 import com.example.demo.util.MailUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.MDC;
@@ -38,6 +39,8 @@ public class AreaController {
     private IAreaService areaService;
     @Resource
     private MailUtil mailUtil;
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/save")
 //    @WebLog(value="保存地区接口")
@@ -49,6 +52,7 @@ public class AreaController {
 //        Marker notifyAdmin = MarkerFactory.getMarker("NOTIFY_ADMIN");
         log.info("{} saved successfully.", areaName);
         log.error("{} saved error", areaName);
+        System.out.println(request.getAttribute("num1"));
 
         System.out.println(MDC.get(UserAuthInterceptor.TRACE_ID));
         if (areaId < 0) {

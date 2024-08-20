@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Email Template</title>
+</head>
+<body>
+<p>Dear <span th:text="${name}">User</span>,</p>
+<p>Welcome to our service. Your registration is almost complete.</p>
+<p>Your code is: <strong th:text="${code}">[CODE]</strong></p>
+</body>
+</html>

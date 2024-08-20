@@ -36,7 +36,7 @@ public class IsAuthorizedAspect {
     @Autowired
     private MailUtil mailUtil;
 
-    @Pointcut("within(com.example.demo.controller..*)")
+//    @Pointcut("within(com.example.demo.controller..*)")
     private void pointCut() {
     }
 
@@ -137,5 +137,6 @@ public class IsAuthorizedAspect {
 //        mail.setContent(String.format("%s\n%s", e.getMessage(), "请注意处理"));
 //        mailUtil.sendSimpleMail(mail);
         log.info("@AfterThrowing end... ");
+        System.out.println("AfterThrowing");
     }
 }

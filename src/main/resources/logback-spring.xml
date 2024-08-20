@@ -88,7 +88,7 @@
         <to>herbert.mei@heavengifts.com</to>
         <from>news@ebclub.com</from>
         <subject>Logback Error Report</subject> <!-- 邮件主题 -->
-        <asynchronousSending>true</asynchronousSending>
+        <asynchronousSending>true</asynchronousSending><!-- 是否异步发送邮件 -->
         <startTLS>true</startTLS>
         <!--        <evaluator class="ch.qos.logback.classic.filter.ThresholdFilter">-->
         <!--            <level>ERROR</level> &lt;!&ndash; 只发送 ERROR 级别的日志 &ndash;&gt;-->
@@ -106,8 +106,8 @@
     </appender>
 
     <!-- 输出日志到数据库 -->
-    <!--    <appender name="DBAppender" class="com.example.demo.config.CustomDBAppender">-->
-    <appender name="DBAppender" class="ch.qos.logback.classic.db.DBAppender">
+<!--    <appender name="DBAppender" class="com.example.demo.config.CustomDBAppender">-->
+            <appender name="DBAppender" class="ch.qos.logback.classic.db.DBAppender">
         <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
             <!--            <driverClass>com.mysql.cj.jdbc.Driver</driverClass>-->
             <!--            <url>jdbc:mysql://localhost:23306/hg?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false</url>-->
