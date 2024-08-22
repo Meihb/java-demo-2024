@@ -5,6 +5,7 @@ import com.example.demo.component.Mail;
 import com.example.demo.entity.Area;
 import com.example.demo.interceptor.UserAuthInterceptor;
 import com.example.demo.service.IAreaService;
+import com.example.demo.service.MyService;
 import com.example.demo.util.MailUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,6 +44,8 @@ public class AreaController {
     private MailUtil mailUtil;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    MyService myService;
 
     @GetMapping("/save")
 //    @WebLog(value="保存地区接口")
@@ -76,6 +79,9 @@ public class AreaController {
         area.setEndTime(end);
         boolean result = areaService.save(area); // 调用 save 方法
 
+//        myService.doSomething();
+        myService.doSomething2();
+        myService.doSomething3();
         if (result) {
             return "Area saved successfully.";
         } else {
