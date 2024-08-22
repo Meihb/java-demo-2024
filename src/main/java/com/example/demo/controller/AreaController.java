@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -62,10 +64,16 @@ public class AreaController {
         }
 //        areaService.test();
         // 假设有一个 User 实体对象
+        LocalDateTime start = LocalDateTime.now();
+        ZonedDateTime end = ZonedDateTime.now();
+
+        System.out.println("start:" + start + " end:" + end);
         Area area = new Area();
         area.setAreaId(areaId);
         area.setAreaName(areaName);
         area.setPriority(priority);
+        area.setStartTime(start);
+        area.setEndTime(end);
         boolean result = areaService.save(area); // 调用 save 方法
         if (result) {
             return "Area saved successfully.";
@@ -94,10 +102,11 @@ public class AreaController {
     @GetMapping("/saveBatch")
     public String saveBatch() {
         // 假设有一组 User 实体对象
+        LocalDateTime now = LocalDateTime.now();
         List<Area> users = Arrays.asList(
-                new Area(0, "Area 1", 1),
-                new Area(0, "Area 2", 2),
-                new Area(0, "Area 3", 3)
+                new Area(0, "Area 1", 1, now),
+                new Area(0, "Area 2", 2, now),
+                new Area(0, "Area 3", 3, now)
 
         );
         // 使用默认批次大小进行批量插入

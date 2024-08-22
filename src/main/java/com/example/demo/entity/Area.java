@@ -1,12 +1,12 @@
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.time.ZonedDateTime;
 
 /**
  * <p>
@@ -30,15 +30,19 @@ public class Area implements Serializable {
 
     private Integer priority;
 
-    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime startTime;
+    private ZonedDateTime endTime;
+
+//    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     private LocalDateTime lastEditTime;
 
-    public Area(int areaId, String areaName, int priority) {
+    public Area(int areaId, String areaName, int priority, LocalDateTime startTime) {
         this.areaId = areaId;
         this.areaName = areaName;
         this.priority = priority;
+        this.startTime = startTime;
     }
 
     public Area() {
