@@ -75,6 +75,7 @@ public class AreaController {
         area.setStartTime(start);
         area.setEndTime(end);
         boolean result = areaService.save(area); // 调用 save 方法
+
         if (result) {
             return "Area saved successfully.";
         } else {

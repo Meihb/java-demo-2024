@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import com.example.demo.util.MD5Util;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 
 @Service
-@Scope("prototype")
 public class UserServiceImpl implements UserService {
+
     @Override
     public User findByUsername(String username) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
