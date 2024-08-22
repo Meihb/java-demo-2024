@@ -26,13 +26,13 @@ public class MyService {
 
     public void doSomething2() {
         MyPrototypeBean myPrototypeBean = myPrototypeBeanFactory.getObject(); // 每次获取新的实例
-        myPrototypeBean.setValue("Changed Value");
+        myPrototypeBean.setValue("Changed Value2");
         System.out.println("PrototypeBean value: " + myPrototypeBean.getValue());
     }
 
     public void doSomething3() {
         MyPrototypeBean myPrototypeBean = getMyPrototypeBean(); // 每次获取新的实例
-        myPrototypeBean.setValue("Changed Value");
+        myPrototypeBean.setValue("Changed Value3");
         System.out.println("PrototypeBean value: " + myPrototypeBean.getValue());
     }
 }

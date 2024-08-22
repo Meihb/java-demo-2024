@@ -32,6 +32,7 @@ public class MainApplication implements CommandLineRunner {
         MyService myService = context.getBean(MyService.class);
 
         myService.doSomething();
-        myService.doSomething(); // 每次调用都将获取一个新的 PrototypeBean 实例
+        myService.doSomething2();
+        myService.doSomething3(); // 每次调用都将获取一个新的 PrototypeBean 实例
     }
 }
