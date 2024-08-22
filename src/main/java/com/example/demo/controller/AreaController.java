@@ -70,7 +70,7 @@ public class AreaController {
         LocalDateTime start = LocalDateTime.now();
         ZonedDateTime end = ZonedDateTime.now();
 
-        System.out.println("start:" + start + " end:" + end);
+//        System.out.println("start:" + start + " end:" + end);
         Area area = new Area();
         area.setAreaId(areaId);
         area.setAreaName(areaName);
@@ -80,8 +80,8 @@ public class AreaController {
         boolean result = areaService.save(area); // 调用 save 方法
 
 //        myService.doSomething();
-        myService.doSomething2();
-        myService.doSomething3();
+//        myService.doSomething2();
+//        myService.doSomething3();
         if (result) {
             return "Area saved successfully.";
         } else {

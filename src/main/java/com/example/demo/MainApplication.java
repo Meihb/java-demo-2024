@@ -31,8 +31,8 @@ public class MainApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         MyService myService = context.getBean(MyService.class);
 
-        myService.doSomething();
-        myService.doSomething2();
-        myService.doSomething3(); // 每次调用都将获取一个新的 PrototypeBean 实例
+//        myService.doSomething();
+//        myService.doSomething2();
+//        myService.doSomething3(); // 每次调用都将获取一个新的 PrototypeBean 实例
     }
 }

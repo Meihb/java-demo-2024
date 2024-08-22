@@ -18,7 +18,6 @@ public class LoginPageRedirectFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         // 检查请求是否是登录页面的请求
-        System.out.println("here in loginPage");
         String loginPageUrl = "/login";
         if (new AntPathRequestMatcher(loginPageUrl).matches(request)) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -31,6 +30,5 @@ public class LoginPageRedirectFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-        System.out.println("after loginPage");
     }
 }
