@@ -12,12 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.MDC;
-import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -47,11 +43,11 @@ public class AreaController {
     @Autowired
     MyService myService;
 
-    @GetMapping("/save")
+    @RequestMapping("/save")
 //    @WebLog(value="保存地区接口")
     public String save(
             @RequestParam(value = "areaId", required = false, defaultValue = "0") Integer areaId,
-            @RequestParam(value = "areaName") String areaName,
+            @RequestParam(value = "areaName", required = false,defaultValue = "Area 1") String areaName,
             @RequestParam(value = "priority", required = false, defaultValue = "0") Integer priority
     ) throws Exception {
 //        Marker notifyAdmin = MarkerFactory.getMarker("NOTIFY_ADMIN");
@@ -61,9 +57,9 @@ public class AreaController {
 
         System.out.println(MDC.get(UserAuthInterceptor.TRACE_ID));
         if (areaId < 0) {
-            log.error(MarkerFactory.getMarker("NOTIFY_ADMIN"), "something wrong", new Exception("exception occurs"));
-//            throw new Exception("Area 1111saved exception.");
-            return "illegal areaId.";
+//            log.error(MarkerFactory.getMarker("NOTIFY_ADMIN"), "something wrong", new Exception("exception occurs"));
+            throw new Exception("Area 1111saved exception.");
+//            return "illegal areaId.";
         }
 //        areaService.test();
         // 假设有一个 User 实体对象

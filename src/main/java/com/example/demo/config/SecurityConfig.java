@@ -27,7 +27,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/assets/**", "/js/**", "/porto/**", "/login","area/**").permitAll()
+                        .requestMatchers("/assets/**", "/js/**", "/porto/**", "/login","area/**","/error").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/login")
@@ -38,6 +39,7 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                         .logoutSuccessUrl("/login")
                         .permitAll())
+                .csrf(AbstractHttpConfigurer::disable)// 需要禁用csrf
                 .anonymous(AbstractHttpConfigurer::disable)
                 .authenticationProvider(customAuthenticationProvider)
                 .addFilterBefore(new CustomFilter(), SecurityContextHolderFilter.class)

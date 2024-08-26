@@ -10,7 +10,7 @@ public class MyPrototypeBean {
     private String value;
 
     public MyPrototypeBean() {
-        System.out.println("in MyPrototypeBean construction");
+//        System.out.println("in MyPrototypeBean construction");
         this.value = "Initial Value";
     }
 
