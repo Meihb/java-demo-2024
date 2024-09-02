@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.SecurityContextHolderFilter;
+import org.springframework.security.web.header.HeaderWriterFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)// 需要禁用csrf
                 .anonymous(AbstractHttpConfigurer::disable)
                 .authenticationProvider(customAuthenticationProvider)
-                .addFilterBefore(new CustomFilter(), SecurityContextHolderFilter.class)
+                .addFilterAfter(new CustomFilter(), HeaderWriterFilter.class)
                 .addFilterBefore(new LoginPageRedirectFilter(), UsernamePasswordAuthenticationFilter.class)
                 ;
 
