@@ -4,16 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.component.Mail;
 import com.example.demo.entity.Area;
 import com.example.demo.interceptor.UserAuthInterceptor;
+import com.example.demo.service.AsyncService;
 import com.example.demo.service.IAreaService;
 import com.example.demo.service.MyService;
 import com.example.demo.util.MailUtil;
+import groovy.lang.Lazy;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -36,18 +41,25 @@ import java.util.Map;
 public class AreaController {
     @Autowired
     private IAreaService areaService;
+
     @Resource
     private MailUtil mailUtil;
+
     @Autowired
     private HttpServletRequest request;
+
     @Autowired
     MyService myService;
+
+    @Autowired
+    @Lazy
+    AsyncService asyncService;
 
     @RequestMapping("/save")
 //    @WebLog(value="保存地区接口")
     public String save(
             @RequestParam(value = "areaId", required = false, defaultValue = "0") Integer areaId,
-            @RequestParam(value = "areaName", required = false,defaultValue = "Area 1") String areaName,
+            @RequestParam(value = "areaName", required = false, defaultValue = "Area 1") String areaName,
             @RequestParam(value = "priority", required = false, defaultValue = "0") Integer priority
     ) throws Exception {
 //        Marker notifyAdmin = MarkerFactory.getMarker("NOTIFY_ADMIN");
@@ -83,6 +95,11 @@ public class AreaController {
         } else {
             return "Failed to save area.";
         }
+    }
+
+    @GetMapping("/testAsync")
+    public void testAsync() {
+        asyncService.executeAsyncTask();
     }
 
     @GetMapping("/sendMail")
