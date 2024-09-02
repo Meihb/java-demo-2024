@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class HttpResponseLog {
-    public String responseBody;
+    public Object responseBody;
     public Integer httpStatus;
-    @JsonProperty("duration_ms")
+    @JsonProperty("durationMs")
     public Long duration;
+    public String contentType;
 }

@@ -14,9 +14,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(userAuthInterceptor)
-////                .addPathPatterns("/**")
-//                .excludePathPatterns("/assets/**", "/js/**", "/porto/**");
+        registry.addInterceptor(userAuthInterceptor)
+                .order(1)// 设置优先级，较小的数字代表更高的优先级
+                .addPathPatterns("/**") // 你可以指定拦截路径
+                .excludePathPatterns("/assets/**", "/js/**", "/porto/**")
+        ;
     }
 
 }
