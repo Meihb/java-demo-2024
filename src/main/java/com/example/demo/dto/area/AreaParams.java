@@ -14,6 +14,6 @@ public class AreaParams<T> extends BaseParams {
     @Size(min = 1, max = 50)
     private Integer configKey;
 
-    @NotNull
+    @NotNull(message = "configValue is required")
     private T configValue;
 }

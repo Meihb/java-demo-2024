@@ -2,9 +2,11 @@ package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.component.Mail;
-import com.example.demo.dto.area.AreaParams;
+import com.example.demo.dto.area.AreaDto;
+import com.example.demo.dto.response.ApiJsonResult;
 import com.example.demo.entity.Area;
 import com.example.demo.interceptor.UserAuthInterceptor;
+import com.example.demo.interfaces.area.CreateGroup;
 import com.example.demo.service.AsyncService;
 import com.example.demo.service.IAreaService;
 import com.example.demo.service.MyService;
@@ -12,15 +14,14 @@ import com.example.demo.util.MailUtil;
 import groovy.lang.Lazy;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.MDC;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -59,8 +60,12 @@ public class AreaController {
 
 
     @RequestMapping("/testValid")
-    public void testValid(@Valid AreaParams configParams) {
-        System.out.println(request.getAttribute("num1"));
+    public ApiJsonResult<Object> testValid(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
+        System.out.println(areaDto.toString());
+        Area area = new Area();
+        BeanUtils.copyProperties(areaDto, area);
+        areaService.save(area);
+        return ApiJsonResult.success("success");
     }
 
     @RequestMapping("/save")
