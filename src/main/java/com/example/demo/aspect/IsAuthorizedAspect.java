@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * 执行顺序
@@ -29,14 +31,14 @@ import java.util.Arrays;
  * @Around end...
  */
 @Component
-@Aspect
+@Aspect// 这里才是关键
 @Slf4j
 public class IsAuthorizedAspect {
 
     @Autowired
     private MailUtil mailUtil;
 
-//    @Pointcut("within(com.example.demo.controller..*)")
+    @Pointcut("within(com.example.demo.controller..*)")
     private void pointCut() {
     }
 
@@ -62,6 +64,11 @@ public class IsAuthorizedAspect {
         log.info("HTTP_METHOD : " + request.getMethod());
         log.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         log.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
+        log.info("HEADERS : " + Collections.list(request.getHeaderNames()).stream()
+                .collect(Collectors.toMap(
+                        headerName -> headerName,
+                        request::getHeader
+                )));
         // 请求IP
         log.info("IP : {}", request.getRemoteAddr());// 打印描述信息
         boolean needAdmin = true;
@@ -86,8 +93,8 @@ public class IsAuthorizedAspect {
             if ("admin".equals(HttpUtil.getRoleFromCookie())) {
                 ret = joinPoint.proceed();//执行到这里开始走进来的方法体（必须声明）
             } else {
-                ret = "NO PERMISSION ACCESS!";
-                log.error((String) ret);
+                ret = "权限不足";
+                throw new RuntimeException(String.valueOf(ret));
             }
         } else {
             ret = joinPoint.proceed();//执行到这里开始走进来的方法体（必须声明）

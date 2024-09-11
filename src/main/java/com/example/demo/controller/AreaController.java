@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.component.Mail;
+import com.example.demo.dto.area.AreaParams;
 import com.example.demo.entity.Area;
 import com.example.demo.interceptor.UserAuthInterceptor;
 import com.example.demo.service.AsyncService;
@@ -11,6 +12,7 @@ import com.example.demo.util.MailUtil;
 import groovy.lang.Lazy;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.MDC;
@@ -54,6 +56,12 @@ public class AreaController {
     @Autowired
     @Lazy
     AsyncService asyncService;
+
+
+    @RequestMapping("/testValid")
+    public void testValid(@Valid AreaParams configParams) {
+        System.out.println(request.getAttribute("num1"));
+    }
 
     @RequestMapping("/save")
 //    @WebLog(value="保存地区接口")
@@ -139,6 +147,7 @@ public class AreaController {
     }
 
     @GetMapping("/get")
+//    @IsAuthorized
     public Map<String, Object> get(
             @RequestParam(value = "areaId", required = false) Integer areaId,
             @RequestParam(value = "areaName", required = false) String areaName

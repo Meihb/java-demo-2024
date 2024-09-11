@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.ThreadExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,16 @@ public class AsyncService {
     public void executeAsyncTask() {
         System.out.println("执行异步任务：" + Thread.currentThread().getName());
         // 模拟长时间任务
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.fillInStackTrace();
-        }
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.fillInStackTrace();
+//        }
+        ThreadExample thread1 = new ThreadExample("线程1");
+        ThreadExample thread2 = new ThreadExample("线程2");
+
+        thread1.start();
+        thread2.start();
         System.out.println("任务执行完毕：" + Thread.currentThread().getName());
     }
 
