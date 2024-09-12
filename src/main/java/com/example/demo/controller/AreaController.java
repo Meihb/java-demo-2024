@@ -45,6 +45,9 @@ public class AreaController {
     @Autowired
     private IAreaService areaService;
 
+    @Autowired
+    private Area area;
+
     @Resource
     private MailUtil mailUtil;
 
@@ -59,8 +62,47 @@ public class AreaController {
     AsyncService asyncService;
 
 
-    @RequestMapping("/testValid")
-    public ApiJsonResult<Object> testValid(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
+    @PostMapping("/create")
+    public ApiJsonResult<Object> create(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
+        System.out.println(areaDto.toString());
+        Area area = new Area();
+        BeanUtils.copyProperties(areaDto, area);
+        areaService.save(area);
+        return ApiJsonResult.success("success");
+    }
+
+    @PutMapping("/update")
+    public ApiJsonResult<Object> update(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
+        System.out.println(areaDto.toString());
+        Area area = new Area();
+        BeanUtils.copyProperties(areaDto, area);
+        areaService.save(area);
+        return ApiJsonResult.success("success");
+    }
+
+    /**
+     * 部分更新
+     * @param areaDto AreaDto
+     * @return
+     */
+    @PatchMapping("/patch")
+    public ApiJsonResult<Object> patch(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
+        System.out.println(areaDto.toString());
+        Area area = new Area();
+        BeanUtils.copyProperties(areaDto, area);
+        areaService.save(area);
+        return ApiJsonResult.success("success");
+    }
+    @DeleteMapping("/delete")
+    public ApiJsonResult<Object> delete(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
+        System.out.println(areaDto.toString());
+        Area area = new Area();
+        BeanUtils.copyProperties(areaDto, area);
+        areaService.save(area);
+        return ApiJsonResult.success("success");
+    }
+    @GetMapping("/get2")
+    public ApiJsonResult<Object> get(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
         System.out.println(areaDto.toString());
         Area area = new Area();
         BeanUtils.copyProperties(areaDto, area);
@@ -92,7 +134,7 @@ public class AreaController {
         ZonedDateTime end = ZonedDateTime.now();
 
 //        System.out.println("start:" + start + " end:" + end);
-        Area area = new Area();
+//        Area area = new Area();
         area.setAreaId(areaId);
         area.setAreaName(areaName);
         area.setPriority(priority);

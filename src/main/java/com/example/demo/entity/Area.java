@@ -1,8 +1,11 @@
 package com.example.demo.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Getter;
-import lombok.Setter;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,9 +19,10 @@ import java.time.ZonedDateTime;
  * @author meihaibo
  * @since 2024-08-08
  */
-@Getter
-@Setter
+@Slf4j
+@Data
 @TableName("area")
+@Component
 public class Area implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,5 +51,10 @@ public class Area implements Serializable {
 
     public Area() {
 
+    }
+
+    public void setAreaName(String areaName) {
+        log.info("setAreaName: " + areaName);
+        this.areaName = areaName;
     }
 }

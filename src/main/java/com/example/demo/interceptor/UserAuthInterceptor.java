@@ -133,7 +133,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
                 jsonMap.put(VIEW_NAME, request.getAttribute(VIEW_NAME));
 //                jsonMap.put(MODEL_DATA, request.getAttribute(MODEL_DATA));
                 httpResponseLog.setResponseBody(jsonMap);
-            } else {
+            } else if (response.getContentType().contains("application/json")) {
                 byte[] responseData = responseWrapper.getContentAsByteArray();
                 String responseContent = new String(responseData, responseWrapper.getCharacterEncoding());
                 httpResponseLog.setResponseBody(objectMapper.readTree(responseContent));
