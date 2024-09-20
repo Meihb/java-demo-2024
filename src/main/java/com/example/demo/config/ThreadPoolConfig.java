@@ -1,11 +1,18 @@
 package com.example.demo.config;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
+@Slf4j
+@EnableScheduling // 一定要使用此注解
 public class ThreadPoolConfig {
 
     @Bean(name = "taskExecutor")
@@ -36,5 +43,16 @@ public class ThreadPoolConfig {
         // 初始化线程池
         executor.initialize();
         return executor;
+    }
+
+    @Bean
+    public ThreadPoolTaskScheduler taskScheduler() {
+        log.info("start init schedule thread pool");
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(10);
+        threadPoolTaskScheduler.setThreadNamePrefix("Scheduled-Task-");
+        threadPoolTaskScheduler.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
+        threadPoolTaskScheduler.initialize();
+        return threadPoolTaskScheduler;
     }
 }

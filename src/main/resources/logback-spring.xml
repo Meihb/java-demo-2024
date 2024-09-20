@@ -106,8 +106,8 @@
     </appender>
 
     <!-- 输出日志到数据库 -->
-<!--    <appender name="DBAppender" class="com.example.demo.config.CustomDBAppender">-->
-            <appender name="DBAppender" class="ch.qos.logback.classic.db.DBAppender">
+    <!--    <appender name="DBAppender" class="com.example.demo.config.CustomDBAppender">-->
+    <appender name="DBAppender" class="ch.qos.logback.classic.db.DBAppender">
         <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
             <!--            <driverClass>com.mysql.cj.jdbc.Driver</driverClass>-->
             <!--            <url>jdbc:mysql://localhost:23306/hg?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false</url>-->
@@ -242,6 +242,28 @@
             <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
+
+    <!-- db日志文件拆分和归档的appender对象-->
+    <appender name="scheduled"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志格式配置-->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--日志输出路径-->
+        <file>${log_dir}/scheduled.log</file>
+        <!--指定日志文件拆分和压缩规则-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--通过指定压缩文件名称，来确定分割文件方式-->
+            <fileNamePattern>${log_dir}/scheduled.rolling.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 每个文件最大为100MB，最多保存60个文件数量，并且所有文件总和不能大于1GB。 -->
+            <maxFileSize>200MB</maxFileSize>
+            <maxHistory>150</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
     <!--
     用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>。
     <loger>仅有一个name属性，一个可选的level和一个可选的addtivity属性
@@ -262,7 +284,7 @@
     <root>可以包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个
     logger。
     -->
-    <root level="WARN">
+    <root level="INFO">
         <appender-ref ref="console"/>
         <appender-ref ref="systemRollFile"/>
     </root>
@@ -299,11 +321,15 @@
     <!--    </lgger>-->
 
     <!--  业务日志  -->
-    <logger name="${app_name}" level="INFO" additivity="false">
+    <logger name="${app_name}" level="INFO" additivity="true">
         <appender-ref ref="projectRollFile"/>
         <appender-ref ref="projectErrorRollFile"/>
         <appender-ref ref="DBAppender"/>
         <appender-ref ref="SMTP"/>
+    </logger>
+
+    <logger name="scheduled" level="DEBUG" additivity="false">
+        <appender-ref ref="scheduled"/>
     </logger>
 
 

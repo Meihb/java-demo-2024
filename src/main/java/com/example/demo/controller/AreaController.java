@@ -62,8 +62,8 @@ public class AreaController {
     AsyncService asyncService;
 
 
-    @PostMapping("/create")
-    public ApiJsonResult<Object> create(@Validated({Default.class, CreateGroup.class}) @RequestBody AreaDto areaDto) {
+    @GetMapping("/create")
+    public ApiJsonResult<Object> create(@Validated({Default.class, CreateGroup.class}) @ModelAttribute AreaDto areaDto) {
         System.out.println(areaDto.toString());
         Area area = new Area();
         BeanUtils.copyProperties(areaDto, area);

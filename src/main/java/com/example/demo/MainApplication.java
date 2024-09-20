@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -18,6 +19,7 @@ import java.lang.reflect.Proxy;
 @SpringBootApplication
 @MapperScan("com.example.demo.mapper")
 @EnableAsync// 这个注解不使用的话则@Async 注解无效,变成同步执行
+@EnableScheduling
 public class MainApplication implements CommandLineRunner {
 
     private final ApplicationContext context;
@@ -58,7 +60,9 @@ public class MainApplication implements CommandLineRunner {
 //        myService.doSomething2();
 //        myService.doSomething3(); // 每次调用都将获取一个新的 PrototypeBean 实例
     }
+
+    interface Hello {
+        void morning(String name);
+    }
 }
-interface Hello {
-    void morning(String name);
-}
+
