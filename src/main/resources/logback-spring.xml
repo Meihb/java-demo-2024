@@ -107,18 +107,18 @@
 
     <!-- 输出日志到数据库 -->
     <!--    <appender name="DBAppender" class="com.example.demo.config.CustomDBAppender">-->
-    <appender name="DBAppender" class="ch.qos.logback.classic.db.DBAppender">
-        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-            <!--            <driverClass>com.mysql.cj.jdbc.Driver</driverClass>-->
-            <!--            <url>jdbc:mysql://localhost:23306/hg?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false</url>-->
-            <!--            <user>root</user>-->
-            <!--            <password>123456</password>-->
-            <driverClass>${driverClassName}</driverClass>
-            <url>${url}</url>
-            <user>${username}</user>
-            <password>${password}</password>
-        </connectionSource>
-    </appender>
+<!--    <appender name="DBAppender" class="ch.qos.logback.classic.db.DBAppender">-->
+<!--        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+<!--            &lt;!&ndash;            <driverClass>com.mysql.cj.jdbc.Driver</driverClass>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <url>jdbc:mysql://localhost:23306/hg?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false</url>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <user>root</user>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <password>123456</password>&ndash;&gt;-->
+<!--            <driverClass>${driverClassName}</driverClass>-->
+<!--            <url>${url}</url>-->
+<!--            <user>${username}</user>-->
+<!--            <password>${password}</password>-->
+<!--        </connectionSource>-->
+<!--    </appender>-->
     <!--日志文件输出appender对象-->
     <appender name="file" class="ch.qos.logback.core.FileAppender">
         <!--日志格式配置-->
