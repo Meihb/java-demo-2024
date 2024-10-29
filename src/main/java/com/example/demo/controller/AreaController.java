@@ -5,6 +5,10 @@ import com.example.demo.component.Mail;
 import com.example.demo.dto.area.AreaDto;
 import com.example.demo.dto.response.ApiJsonResult;
 import com.example.demo.entity.Area;
+import com.example.demo.event.AdminEvent;
+import com.example.demo.event.EventBus;
+import com.example.demo.event.OrderPlacedEvent;
+import com.example.demo.event.UserCreatedEvent;
 import com.example.demo.interceptor.UserAuthInterceptor;
 import com.example.demo.interfaces.area.CreateGroup;
 import com.example.demo.service.AsyncService;
@@ -61,6 +65,24 @@ public class AreaController {
     @Lazy
     AsyncService asyncService;
 
+    private final EventBus eventBus;
+
+    public AreaController(EventBus eventBus) {
+        this.eventBus = eventBus;
+    }
+
+    @GetMapping("/createUserEvent")
+    public String createUser(@RequestParam String userId) {
+        eventBus.publishEvent(new UserCreatedEvent(userId));
+        eventBus.publishEvent(new AdminEvent(this,"aaasd"));
+        return "User creation event published";
+    }
+
+    @GetMapping("/placeOrderEvent")
+    public String placeOrder(@RequestParam String orderId) {
+        eventBus.publishEvent(new OrderPlacedEvent(orderId));
+        return "Order placed event published";
+    }
 
     @GetMapping("/create")
     public ApiJsonResult<Object> create(@Validated({Default.class, CreateGroup.class}) @ModelAttribute AreaDto areaDto) {
