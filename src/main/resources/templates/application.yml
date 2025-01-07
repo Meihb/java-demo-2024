@@ -1,0 +1,7 @@
+spring:
+  clickhouse:
+    datasource:
+      url: jdbc:clickhouse://localhost:18123/test
+      username:
+      password:
+      driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
