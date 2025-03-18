@@ -284,7 +284,7 @@
     <root>可以包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个
     logger。
     -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="console"/>
         <appender-ref ref="systemRollFile"/>
     </root>

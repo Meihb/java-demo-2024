@@ -28,7 +28,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/assets/**", "/js/**", "/porto/**", "/login","/area/**","/error").permitAll()
-                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/actuator/**","/swagger-ui/**").permitAll()
                         .requestMatchers("/ck/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin((form) -> form

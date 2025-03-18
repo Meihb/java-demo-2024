@@ -229,6 +229,7 @@ public class AreaController {
         if (areaName != null) {
             queryWrapper.eq("area_name", areaName);
         }
+        log.info("{}",areaService.getMap(queryWrapper));
         return areaService.getMap(queryWrapper);
     }
 

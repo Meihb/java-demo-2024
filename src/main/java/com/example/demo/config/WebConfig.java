@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(userAuthInterceptor)
                 .order(1)// 设置优先级，较小的数字代表更高的优先级
                 .addPathPatterns("/**") // 你可以指定拦截路径
-                .excludePathPatterns("/assets/**", "/js/**", "/porto/**")
+                .excludePathPatterns("/assets/**", "/js/**", "/porto/**","/swagger-ui/**")
         ;
     }
 
