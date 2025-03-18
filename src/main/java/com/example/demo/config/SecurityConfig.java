@@ -28,9 +28,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/assets/**", "/js/**", "/porto/**", "/login","/area/**","/error").permitAll()
-                        .requestMatchers("/actuator/**","/swagger-ui/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/swagger-ui/**","swagger-ui.html","/v3/api-docs/**").permitAll()
                         .requestMatchers("/ck/**").permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/")
