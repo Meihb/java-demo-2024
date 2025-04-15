@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class Account {
 
     @Autowired
-    private static Allocator actr; // 资源分配器
+    private Allocator actr; // 资源分配器
     private BigDecimal balance;
 
     public Account(BigDecimal balance) {
