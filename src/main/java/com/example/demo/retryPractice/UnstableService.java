@@ -23,6 +23,9 @@ public class UnstableService {
             }
             log.info("Attempt {}: success", counter);
             return "Success at attempt " + counter;
+        }, context -> {
+            log.info("recover...");
+            return "Failed as last";
         });
     }
 
