@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class AccountTransferService {
 
-    private final Allocator allocator;
+    private final AllocatorTest2 allocator;
 
     public void transfer(Account from, Account to, BigDecimal amt) {
         // 分配资源锁
