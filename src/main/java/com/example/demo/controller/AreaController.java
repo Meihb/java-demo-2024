@@ -6,7 +6,7 @@ import com.example.demo.dto.area.AreaDto;
 import com.example.demo.dto.response.ApiJsonResult;
 import com.example.demo.entity.Area;
 import com.example.demo.event.AdminEvent;
-import com.example.demo.event.EventBus;
+import com.example.demo.event.DemoEventBus;
 import com.example.demo.event.OrderPlacedEvent;
 import com.example.demo.event.UserCreatedEvent;
 import com.example.demo.interceptor.UserAuthInterceptor;
@@ -65,9 +65,9 @@ public class AreaController {
     @Lazy
     AsyncService asyncService;
 
-    private final EventBus eventBus;
+    private final DemoEventBus eventBus;
 
-    public AreaController(EventBus eventBus) {
+    public AreaController(DemoEventBus eventBus) {
         this.eventBus = eventBus;
     }
 

@@ -4,10 +4,10 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EventBus {
+public class DemoEventBus {
     private final ApplicationEventPublisher publisher;
 
-    public EventBus(ApplicationEventPublisher publisher) {
+    public DemoEventBus(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
     }
 
